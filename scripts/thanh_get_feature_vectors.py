@@ -7,9 +7,9 @@ Finally a distnace matrix (in condensed form )in written to ../distance_mat with
 '''
 
 import numpy as np
-# order=[7,1,2,3,4,5,6,0,8,9,10]
-# import sys
-# sys.path=[sys.path[i] for i in order]
+order=[7,1,2,3,4,5,6,0,8,9,10]
+import sys
+sys.path=[sys.path[i] for i in order]
 import cv2
 from matplotlib import pyplot as plt
 import sys
@@ -23,11 +23,10 @@ import dlib
 
 
 METHOD = "OpenCV"
-DATASET_PATH = "../../feret/"
-# DATASET_PATH = "../../faces_5k/"
-MODEL_NAME = "2nd_continue_norm_all.ckpt"
+DATASET_PATH = "../../faces_5k_crop/"
+MODEL_NAME = "initial.ckpt"
 MODEL_NAME_NO_EXT = MODEL_NAME.replace(".ckpt", "")
-INPUT_FILE = "all_unique_feret_names.csv"
+INPUT_FILE = "faces_5k_names.csv"
 SAVE_IMAGES = False
 
 
@@ -148,7 +147,8 @@ def loadAndCrop(s, method='OpenCV'):
   
 def loadOnly(s):
   #read image and convert to gray scale
-  img=cv2.imread(rreplace(s, "/", "_cropped/", 1))  
+#   img=cv2.imread(rreplace(s, "/", "_cropped/", 1))  
+  img=cv2.imread(s)  
   #convert
   img2 = img.astype(np.float32)
   img2 -= [129.1863,104.7624,93.5940]

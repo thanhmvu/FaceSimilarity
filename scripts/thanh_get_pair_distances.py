@@ -13,9 +13,9 @@
 # @returns distances/*_result.txt
 
 import csv
-# order=[7,1,2,3,4,5,6,0,8,9,10];
-# import sys
-# sys.path=[sys.path[i] for i in order]
+order=[7,1,2,3,4,5,6,0,8,9,10];
+import sys
+sys.path=[sys.path[i] for i in order]
 import numpy as np
 from scipy.spatial.distance import pdist
 from scipy.spatial.distance import squareform
@@ -23,6 +23,8 @@ import matplotlib.pyplot as plt
 import collections
 import os
 from shutil import copyfile
+
+DATASET_PATH = "../../faces_5k_crop/"
 
 #computes the normalized distance between two numpy vectors
 def getDistance(id1,id2):
@@ -53,10 +55,15 @@ def getFilename(index):
 ## Load distance matrix and calculate its expanded form
 ##
 
-dist=np.loadtxt("../distance_mat/" + sys.argv[1].replace(".","_euclidean_distmat."))
-print('Loaded ' + "../distance_mat/" + sys.argv[1].replace(".","_euclidean_distmat."))
+# dist=np.loadtxt("../distance_mat/" + sys.argv[1].replace(".","_euclidean_distmat."))
+# print('Loaded ' + "../distance_mat/" + sys.argv[1].replace(".","_euclidean_distmat."))
+# distsq=squareform(dist)
+# print('Finished processing ' + "../distance_mat/" + sys.argv[1].replace(".","_euclidean_distmat."))
+
+dist=np.loadtxt("../distance_mat/" + sys.argv[1].replace(".","_distmat_initial_."))
+print('Loaded ' + "../distance_mat/" + sys.argv[1].replace(".","_distmat_initial_."))
 distsq=squareform(dist)
-print('Finished processing ' + "../distance_mat/" + sys.argv[1].replace(".","_euclidean_distmat."))
+print('Finished processing ' + "../distance_mat/" + sys.argv[1].replace(".","_distmat_initial_."))
 #make necessary folder for results
 if not os.path.exists('../results/mech_turk_page'):
     os.makedirs('../results/mech_turk_page')
@@ -103,14 +110,14 @@ if not os.path.exists('../results/mech_turk_page'):
 ##
 
 hist, bins = np.histogram(dist, 13)
-print bins
-print hist
+print "bins: ", bins
+print "hist: ", hist
 
 # Threshold bins (eliminate bins having less than 100 elements)
 bins=np.delete(bins,np.argwhere(hist<100))
 hist=np.delete(hist,np.argwhere(hist<100))
-print bins
-print hist
+print "bins: ", bins
+print "hist: ", hist
 # Fill array with image ids for every bin
 allbins=[]
 lastbin=bins[0]
@@ -138,16 +145,18 @@ for bin, bin_value in enumerate(bins[:-1]) :
     binned_pairs_out.write(str(first_image_name) + ", " + str(second_image_name) + "," + str(pair_score) + "\n")
     if first_image_name not in used_faces:
       used_faces.append(first_image_name)
-      copyfile('../../feret/' + first_image_name, '../results/mech_turk_page/faces_original_ppm/' + first_image_name) # original ppm
-      copyfile('../../feret/' + first_image_name, '../results/mech_turk_page/faces_original_png/' + first_image_name.replace(".ppm", ".png")) # original png
-      copyfile('../../feret_cropped_opencv/' + first_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_ppm/' + first_image_name) # cropped ppm
-      copyfile('../../feret_cropped_opencv/' + first_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_png/' + first_image_name.replace(".ppm", ".png")) # cropped png
+#       copyfile(DATASET_PATH + first_image_name, '../results/mech_turk_page/faces_original_ppm/' + first_image_name) # original ppm
+#       copyfile(DATASET_PATH + first_image_name, '../results/mech_turk_page/faces_original_png/' + first_image_name.replace(".ppm", ".png")) # original png
+#       copyfile(DATASET_PATH + first_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_ppm/' + first_image_name) # cropped ppm
+#       copyfile(DATASET_PATH + first_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_png/' + first_image_name.replace(".ppm", ".png")) # cropped png
+      copyfile(DATASET_PATH + first_image_name, '../results/mech_turk_page/faces_png/' + first_image_name) # cropped png
     if second_image_name not in used_faces:
       used_faces.append(second_image_name)
-      copyfile('../../feret/' + second_image_name, '../results/mech_turk_page/faces_original_ppm/' + second_image_name) # original ppm
-      copyfile('../../feret/' + second_image_name, '../results/mech_turk_page/faces_original_png/' + second_image_name.replace(".ppm", ".png")) # original png
-      copyfile('../../feret_cropped_opencv/' + second_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_ppm/' + second_image_name) # cropped ppm
-      copyfile('../../feret_cropped_opencv/' + second_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_png/' + second_image_name.replace(".ppm", ".png")) # cropped png
+#       copyfile('../../feret/' + second_image_name, '../results/mech_turk_page/faces_original_ppm/' + second_image_name) # original ppm
+#       copyfile('../../feret/' + second_image_name, '../results/mech_turk_page/faces_original_png/' + second_image_name.replace(".ppm", ".png")) # original png
+#       copyfile('../../feret_cropped_opencv/' + second_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_ppm/' + second_image_name) # cropped ppm
+#       copyfile('../../feret_cropped_opencv/' + second_image_name.replace(".ppm", ".png"), '../results/mech_turk_page/faces_png/' + second_image_name.replace(".ppm", ".png")) # cropped png
+      copyfile(DATASET_PATH + second_image_name, '../results/mech_turk_page/faces_png/' + second_image_name) # cropped png
 print('Finished writing ' + "../results/mech_turk_page/"+ sys.argv[1].replace(".csv","_binned_pairs.txt"))
 
 # store the unique names of all used faces
@@ -161,7 +170,7 @@ print('Generating mechanical turk file & page')
 text_file = open("../results/mech_turk_page/"+ sys.argv[1].replace(".csv","_mech_turk_result.txt"), 'w')
 index_page = open("../results/mech_turk_page/index.html", 'w')
 
-index_page.write('<h1>Feret Faces Database (used ' + str(len(used_faces)) + ' images)</h1>')
+index_page.write('<h1>Faces Database (used ' + str(len(used_faces)) + ' images)</h1>')
 index_page.write('<a href="all_unique_feret_names_mech_turk_result.txt">Download result text file</a><br>')
 index_page.write('<a href="all_unique_feret_names_binned_pairs.txt">Download list of binned pairs</a><br>')
 index_page.write('<a href="all_unique_feret_names_used_faces.txt">Download list of used faces</a><br>')
