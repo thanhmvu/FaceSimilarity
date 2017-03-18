@@ -12,8 +12,9 @@ import os
 from shutil import copyfile
 
 DATASET_DIR = "../../faces_5k_crop/"
-NAME_FILE = "faces_10_names.csv"
-OUTPUT_DIR ="../results/"
+NAME_FILE = "faces_5k_names.csv"
+OUTPUT_DIR = "../results/"
+OUTPUT_HTML = "results_5k.html"
 
 # DATASET_DIR = os.path.abspath(DATASET_DIR)
 # OUTPUT_DIR = os.path.abspath(OUTPUT_DIR)
@@ -31,7 +32,7 @@ def getFilename(index):
 ##
 ## Load distance matrix and calculate its expanded form
 ##
-
+print('Loading ' + "../distance_mat/" + NAME_FILE.replace(".","_distmat_initial_.") + " ...")
 dist=np.loadtxt("../distance_mat/" + NAME_FILE.replace(".","_distmat_initial_."))
 print('Loaded ' + "../distance_mat/" + NAME_FILE.replace(".","_distmat_initial_."))
 # print(dist)
@@ -92,7 +93,7 @@ def save_css(dir):
   f.close()
 
 def save_html(contents, dir):
-  f = open(dir + "results.html","w")
+  f = open(dir + OUTPUT_HTML,"w")
 
   display = """
   <!DOCTYPE html>
