@@ -131,7 +131,7 @@ def print_html(simFaces, dir):
 		for simface in simFaces[srcface]:
 			img = simface[0]
 			dist = simface[1]
-			resultTable += "<th>" +htmlImg(DATASET_DIR + img,"transparent") + "<br>"+ srcface + "<br> Dist: "+ str(dist) +"</th>"
+			resultTable += "<th>" +htmlImg(DATASET_DIR + img,"transparent") + "<br>"+ img + "<br> Dist: "+ str(dist) +"</th>"
 		resultTable += "</tr>"
     
   resultTable += "</table>\n"
