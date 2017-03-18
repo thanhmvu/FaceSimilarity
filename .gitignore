@@ -1,5 +1,4 @@
 scripts/vggface/trainedmodels/
 description_vectors/
 distance_mat/
-results/
 *.pyc
