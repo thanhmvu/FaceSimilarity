@@ -4,6 +4,8 @@ import glob
 import shutil
 # from matplotlib import pyplot as plt
 
+
+# ================================= METHODS ================================ #
 def detectAndDisplay3(imgName):
 	face_cascade = cv2.CascadeClassifier('openCVDetector/haarcascade_frontalface_default.xml')
 
@@ -92,18 +94,18 @@ def detect(imgName):
 	return len(faces)
 
 # =================================== MAIN ================================== #
-src = "/Users/thanhvu/Desktop/FaceSimilarity/faces/"
-# out = open("bad_imgs.txt","w+")
+SRC_NAMES = "../../database/Names100Dataset/names100.txt"
+DB_DIR = "../../database/"
+# SRC_DIR = "Names100Dataset/Names100_Images/"
+SRC_DIR = "storage/faces_5k_v0/"
+DST_DIR = "storage/good_faces/"
+BAD_DIR = "storage/bad_faces/"
 
-# all names from Names100Dataset. Each have 800 images
-# names = ['Aaron', 'Abby', 'Amanda', 'Andrea', 'Angela', 'Ann', 'Anna', 'Annie', 'Anthony', 'Barbara', 'Brandon', 'Brian', 'Chris', 'Christina', 'Christine', 'Cindy', 'Danielle', 'Danny', 'David', 'Dylan', 'Elena', 'Elizabeth', 'Emily', 'Emma', 'Eric', 'Erin', 'Eva', 'Evan', 'Gabriel', 'Gary', 'Grace', 'Greg', 'Helen', 'Ian', 'Ivan', 'Jackie', 'Jacob', 'Jake', 'James', 'Jamie', 'Jane', 'Jason', 'Jeff', 'Jesse', 'Jim', 'Jo', 'Joel', 'Joey', 'Jon', 'Jonathan', 'Joseph', 'Julie', 'Kate', 'Katie', 'Kelly', 'Kevin', 'Kim', 'Kyle', 'Lauren', 'Leah', 'Linda', 'Lisa', 'Lucas', 'Maggie', 'Marc', 'Matthew', 'Melissa', 'Michelle', 'Mike', 'Monica', 'Nancy', 'Natalia', 'Nathan', 'Nick', 'Nicolas', 'Noah', 'Oliver', 'Olivia', 'Patricia', 'Patrick', 'Paula', 'Rachel', 'Rebecca', 'Rick', 'Samantha', 'Sarah', 'Sergio', 'Sofia', 'Stephanie', 'Stephen', 'Steve', 'Steven', 'Sue', 'Thomas', 'Tina', 'Tony', 'Tyler', 'Vanessa', 'Victor', 'Zoe']
-
-# imgNames = []
-# for name in names:
-# 	for j in range(1,801):
-# 		imgName = "../../Names100Dataset/Names100_Images/"+name+"_"+ str(j)+".png"
-# 		imgNames.append(imgName)
-# print(len(imgNames))
+# import names from text file in Names100Dataset
+# each name correspond to 800 images
+all_names = [line.strip() for line in open(SRC_NAMES,"r+")]
+all_names = sorted(all_names)
+print(all_names)
 
 # ======== Test individual images ======== #
 # imgName = "../test/face_sim_test.jpg"
@@ -111,20 +113,26 @@ src = "/Users/thanhvu/Desktop/FaceSimilarity/faces/"
 # detectAndDisplay(imgName)
 
 # ======== Detect and move images ======== #
-good = 0
+used_names = 17
+image_per_name = 50
 # for i,imgName in enumerate(imgNames):
-for i,imgName in enumerate(sorted(glob.glob("../../Names100Dataset/Names100_Images/*"))):
-	print (imgName)
-	faces = detect(imgName)
-	if faces != 0:
-		good+= 1
-		shutil.move(imgName,imgName.replace("Names100_Images","good"))
-	else:
-		shutil.move(imgName,imgName.replace("Names100_Images","bad"))
+for name in all_names[:used_names]:
+	print(name)
+	good_images = 0
+	for imgName in glob.glob(DB_DIR+SRC_DIR+name+"*.png"):
+		print(imgName)
+		faces = detect(imgName)
+		if faces != 0:
+			good_images += 1
+			rname = imgName.replace(SRC_DIR,DST_DIR)
+			print("good iamge: %s" % (rname))
+			# shutil.move(imgName,rname)
+		else:
+			rname = imgName.replace(SRC_DIR,"bad")
+			print(rname)
+			# shutil.move(imgName,rname)
 
-	print("Current index: "+str(i))
-	print("Number of good images: "+str(good))
-	if good == 100:
-		break
-print("total good images: %d" % (good))
+		print("Number of good images so far %d" % (good_images))
+		if good_images == image_per_name:
+			break
 
