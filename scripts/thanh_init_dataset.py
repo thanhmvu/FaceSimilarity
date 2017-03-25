@@ -2,6 +2,7 @@ import numpy as np
 import cv2
 import glob
 import shutil
+import os
 # from matplotlib import pyplot as plt
 
 
@@ -96,8 +97,7 @@ def detect(imgName):
 # =================================== MAIN ================================== #
 SRC_NAMES = "../../database/Names100Dataset/names100.txt"
 DB_DIR = "../../database/"
-# SRC_DIR = "Names100Dataset/Names100_Images/"
-SRC_DIR = "storage/faces_5k_v0/"
+SRC_DIR = "Names100Dataset/Names100_Images/"
 DST_DIR = "storage/good_faces/"
 BAD_DIR = "storage/bad_faces/"
 
@@ -113,10 +113,10 @@ print(all_names)
 # detectAndDisplay(imgName)
 
 # ======== Detect and move images ======== #
-used_names = 17
-image_per_name = 50
+used_names = len(all_names)
+image_per_name = 100 #50
 # for i,imgName in enumerate(imgNames):
-for name in all_names[:used_names]:
+for name in all_names[21:used_names]:
 	print(name)
 	good_images = 0
 	for imgName in glob.glob(DB_DIR+SRC_DIR+name+"*.png"):
@@ -124,13 +124,15 @@ for name in all_names[:used_names]:
 		faces = detect(imgName)
 		if faces != 0:
 			good_images += 1
-			rname = imgName.replace(SRC_DIR,DST_DIR)
-			print("good iamge: %s" % (rname))
-			# shutil.move(imgName,rname)
+			rname = imgName.replace(SRC_DIR,DST_DIR + name + "/")
+			print(os.path.dirname(rname))
+			if not os.path.exists(os.path.dirname(rname)): 
+				os.makedirs(os.path.dirname(rname))
+			shutil.move(imgName,rname)
 		else:
-			rname = imgName.replace(SRC_DIR,"bad")
+			rname = imgName.replace(SRC_DIR,BAD_DIR)
 			print(rname)
-			# shutil.move(imgName,rname)
+			shutil.move(imgName,rname)
 
 		print("Number of good images so far %d" % (good_images))
 		if good_images == image_per_name:
