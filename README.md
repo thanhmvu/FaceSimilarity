@@ -64,3 +64,23 @@ Trained models are stored in **scripts/vggface/trainedmodels/**, their descripti
 * **2nd_fine_tune_norm_2fc.ckpt** trained using the results from the second Mechanical Turk experiment (triplets) - fine tuning the last two layers
 * **2nd_continue_norm_all.ckpt** trained using the results from the second Mechanical Turk experiment (triplets) - fine tuning all the layers
 * **2nd_reinitialize_norm_2fc.ckpt** trained using the results from the second Mechanical Turk experiment (triplets) - reinitializing the variables on the last two layers then training them
+
+## How to run
+
+Prepare for training: Create a webpage of 5000 faces and their top 6 most similar faces. To do so, follow these steps:
+
+* ** Filter unreadable images using face detection: python thanh_init_dataset.py
+* ** Manually filter good faces (exclude poor quality, weird pose, celeb faces, ...)
+* ** The output is 100 names * 50 faces/ name = 5000 faces
+* ** Crop 120x150 images to make spare images: mogrify -crop 120x120+0+30 *.png
+* ** Resize image to 224x224 to fit the network: mogrify -resize 224x224 *.png
+* ** Generate names.csv: ls image-folder/ > names.csv
+* ** Provide path to images and names.csv in thanh_get_feature_vectors.py and run it
+* ** Provide path to images and names.csv in  thanh_get_similar_faces.py and run it
+* ** The output html webpage is in results/
+
+
+
+
+
+
