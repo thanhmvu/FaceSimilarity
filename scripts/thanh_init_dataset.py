@@ -98,7 +98,8 @@ def detect(imgName):
 SRC_NAMES = "../../database/Names100Dataset/names100.txt"
 DB_DIR = "../../database/"
 SRC_DIR = "Names100Dataset/Names100_Images/"
-DST_DIR = "storage/good_faces/"
+# DST_DIR = "storage/good_faces/"
+DST_DIR = "faces_5k/abc/"
 BAD_DIR = "storage/bad_faces/"
 
 # import names from text file in Names100Dataset
@@ -112,22 +113,21 @@ print(all_names)
 # print(imgName)
 # detectAndDisplay(imgName)
 
-# ======== Detect and move images ======== #
+# # ======== Detect and move images ======== #
 used_names = len(all_names)
-image_per_name = 100 #50
+image_per_name = 30
 # for i,imgName in enumerate(imgNames):
-for name in all_names[21:used_names]:
+for name in all_names[99:used_names]:
 	print(name)
+	name = "Zoe"
 	good_images = 0
 	for imgName in glob.glob(DB_DIR+SRC_DIR+name+"*.png"):
 		print(imgName)
 		faces = detect(imgName)
 		if faces != 0:
 			good_images += 1
-			rname = imgName.replace(SRC_DIR,DST_DIR + name + "/")
-			print(os.path.dirname(rname))
-			if not os.path.exists(os.path.dirname(rname)): 
-				os.makedirs(os.path.dirname(rname))
+			rname = imgName.replace(SRC_DIR,DST_DIR)
+			print(rname)
 			shutil.move(imgName,rname)
 		else:
 			rname = imgName.replace(SRC_DIR,BAD_DIR)
@@ -138,3 +138,12 @@ for name in all_names[21:used_names]:
 		if good_images == image_per_name:
 			break
 
+# Flatten folders. User if does not want the name folders
+# for name in all_names[:60]:
+# 	mask = DB_DIR+DST_DIR+name+"/*.png"
+# 	print(mask)
+# 	for imgName in glob.glob(mask):
+# 		rname = imgName.replace(name+"/","")
+# 		print(imgName)
+# 		print(rname)
+# 		shutil.move(imgName,rname)
