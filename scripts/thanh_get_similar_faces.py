@@ -11,7 +11,7 @@ import collections
 import os
 from shutil import copyfile
 
-DATASET_DIR = "../../faces_5k_croppeed/"
+DATASET_DIR = "../../faces_5k_cropped/"
 NAME_FILE = "faces_5k_AZ_names.csv"
 OUTPUT_DIR = "../results/"
 OUTPUT_HTML = "results_5k_AZ.html"
