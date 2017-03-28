@@ -69,18 +69,12 @@ Trained models are stored in **scripts/vggface/trainedmodels/**, their descripti
 
 Prepare for training: Create a webpage of 5000 faces and their top 6 most similar faces. To do so, follow these steps:
 
-* ** Filter unreadable images using face detection: python thanh_init_dataset.py
-* ** Manually filter good faces (exclude poor quality, weird pose, celeb faces, ...)
-* ** The output is 100 names * 50 faces/ name = 5000 faces
-* ** Crop 120x150 images to make spare images: mogrify -crop 120x120+0+30 *.png
-* ** Resize image to 224x224 to fit the network: mogrify -resize 224x224 *.png
-* ** Generate names.csv: ls image-folder/ > names.csv
-* ** Provide path to images and names.csv in thanh_get_feature_vectors.py and run it
-* ** Provide path to images and names.csv in  thanh_get_similar_faces.py and run it
-* ** The output html webpage is in results/
-
-
-
-
-
-
+* Filter unreadable images using face detection: **python thanh_init_dataset.py**
+* Manually filter good faces (exclude poor quality, weird pose, celeb faces, ...)
+* The output is 100 names &ast; 50 faces/ name = 5000 faces
+* Crop 120x150 images to make spare images: **mogrify -crop 120x120+0+30 &ast;.png**
+* Resize image to 224x224 to fit the network: **mogrify -resize 224x224 &ast;.png**
+* Generate names.csv: **ls image-folder/ > names.csv**
+* Provide path to images and names.csv in thanh_get_feature_vectors.py and run: **python thanh_get_feature_vectors.py**
+* Provide path to images and names.csv in thanh_get_similar_faces.py and run: **python thanh_get_similar_faces.py**
+* The output html webpage is in results/
