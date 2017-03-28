@@ -11,10 +11,10 @@ import collections
 import os
 from shutil import copyfile
 
-DATASET_DIR = "../../faces_5k_crop/"
-NAME_FILE = "faces_5k_names.csv"
+DATASET_DIR = "../../faces_5k_croppeed/"
+NAME_FILE = "faces_5k_AZ_names.csv"
 OUTPUT_DIR = "../results/"
-OUTPUT_HTML = "results_5k.html"
+OUTPUT_HTML = "results_5k_AZ.html"
 
 # DATASET_DIR = os.path.abspath(DATASET_DIR)
 # OUTPUT_DIR = os.path.abspath(OUTPUT_DIR)

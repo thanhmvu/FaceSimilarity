@@ -23,11 +23,10 @@ import dlib
 
 
 METHOD = "OpenCV"
-DATASET_PATH = "../../faces_5k_crop/"
+DATASET_PATH = "../../faces_5k_cropped/"
 MODEL_NAME = "initial.ckpt"
 MODEL_NAME_NO_EXT = MODEL_NAME.replace(".ckpt", "")
-# INPUT_FILE = "faces_5k_names.csv"
-INPUT_FILE = "faces_10_names.csv"
+INPUT_FILE = "faces_5k_AZ_names.csv"
 SAVE_IMAGES = False
 
 
