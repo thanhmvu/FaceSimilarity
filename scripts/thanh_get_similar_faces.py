@@ -15,6 +15,7 @@ DATASET_DIR = "../../faces_5k_cropped/"
 NAME_FILE = "faces_5k_AZ_names.csv"
 OUTPUT_DIR = "../results/"
 OUTPUT_HTML = "results_5k_AZ.html"
+OUTPUT_TXT = "results_5k_AZ.txt"
 
 # DATASET_DIR = os.path.abspath(DATASET_DIR)
 # OUTPUT_DIR = os.path.abspath(OUTPUT_DIR)
@@ -65,6 +66,7 @@ for i in range(len(distsq)):
   print (srcImg)
   mostSim[srcImg] = [(getFilename(j),round(dist_i[j],4)) for j in most_sim_idx]
   mostSim[srcImg] = sorted(mostSim[srcImg], key=lambda x: x[1])
+  print (mostSim[srcImg])
 
 	
   
@@ -146,5 +148,21 @@ def print_html(simFaces, dir):
   save_css(dir)
   save_html(contents,dir)
 
+def print_txt(simFaces, dir):
+  f = open(dir + OUTPUT_TXT,"w")
+  delimiter = "\t"
+  f.write("i0"+delimiter+"i1"+delimiter+"i2"+delimiter+"i3"+delimiter+"i4"+delimiter+"i5"+delimiter+"i6"+delimiter+"s1"+delimiter+"s2"+delimiter+"s3"+delimiter+"s4"+delimiter+"s5"+delimiter+"s6"+"\n")
+
+  for i,srcface in enumerate(simFaces):
+		dict = simFaces[srcface]
+		names = delimiter.join([x[0] for x in dict])
+		scores = delimiter.join([str(x[1]) for x in dict])
+		f.write(srcface +delimiter+ names +delimiter+ scores +"\n")
+    
+  f.close()
+	
+# Generate name file for mechanical turk
+print_txt(mostSim, OUTPUT_DIR)
+
 # Generate output webpage
-print_html(mostSim, OUTPUT_DIR)
+# print_html(mostSim, OUTPUT_DIR)
