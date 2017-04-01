@@ -11,14 +11,13 @@ import collections
 import os
 from shutil import copyfile
 
+import thanh_display_sim_faces as dsf
+
 DATASET_DIR = "../../faces_5k_cropped/"
 NAME_FILE = "faces_5k_AZ_names.csv"
-OUTPUT_DIR = "../results/"
-OUTPUT_HTML = "results_5k_AZ.html"
-OUTPUT_TXT = "results_5k_AZ.txt"
+OUTPUT_HTML = "../results/results_5k_AZ.html"
+OUTPUT_TXT = "../results/results_5k_AZ.txt"
 
-# DATASET_DIR = os.path.abspath(DATASET_DIR)
-# OUTPUT_DIR = os.path.abspath(OUTPUT_DIR)
 
 # Finds and returns the index at unique_feret_names corresponding to the image's file name
 def getFilename(index):
@@ -73,96 +72,8 @@ for i in range(len(distsq)):
 ##
 ## ============================== Display output webpage ==============================
 ##
-
-def save_css(dir):
-  f = open(dir + "style.css","w")
-  contents = """
-	<style >
-	table {
-	    font-family: arial, sans-serif;
-	    border-collapse: collapse;
-	    width: 100%;
-	}
-
-	td, th {
-		white-space: nowrap;
-	    border: 1px solid #dddddd;
-	    text-align: left;
-	    padding: 8px;
-	    font-size: 100%;
-	}
-
-	tr:nth-child(even) {
-	    background-color: #dddddd;
-	}
-	</style>"""
-  f.write(contents)
-  f.close()
-
-def save_html(contents, dir):
-  f = open(dir + OUTPUT_HTML,"w")
-
-  display = """
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <link rel="stylesheet" href="style.css">
-  </head>
-  <body>
-  """ + contents + "</body>\n</html>\n"
-
-  f.write(display)
-  f.close()
-
-def htmlImg(img, borderColor):
-  h = 100
-  b = 5
-  return "<img src=\""+ img + "\" alt=\"Class " + img + "\" style=\"height:"+`h`+"px; border:"+`b`+"px solid "+ borderColor +";\">"
-
-def print_html(simFaces, dir):
-  resultTable = """
-  <table>
-    <tr>
-      <th>Image Idx</th>
-      <th>Source Face</th>
-      <th>Similar Faces</th>
-    </tr>
-  """
-
-  for i, srcface in enumerate(simFaces):
-		resultTable += """
-		<tr>
-			<th>"""+ str(i) +"""</th>
-			<th>"""+ htmlImg(DATASET_DIR + srcface,"transparent") + "<br>"+ srcface +"""</th>
-		"""
-		for simface in simFaces[srcface]:
-			img = simface[0]
-			dist = simface[1]
-			resultTable += "<th>" +htmlImg(DATASET_DIR + img,"transparent") + "<br>"+ img + "<br> Dist: "+ str(dist) +"</th>"
-		resultTable += "</tr>"
-    
-  resultTable += "</table>\n"
-
-  contents = """<h2>Face Similarity</h2> <br> <br>""" +resultTable
-	
-  save_css(dir)
-  save_html(contents,dir)
-
-def print_txt(simFaces, dir):
-  f = open(dir + OUTPUT_TXT,"w")
-  delimiter = "\t"
-  f.write("i0"+delimiter+"i1"+delimiter+"i2"+delimiter+"i3"+delimiter+"i4"+delimiter+"i5"+delimiter+"i6"+delimiter+"s1"+delimiter+"s2"+delimiter+"s3"+delimiter+"s4"+delimiter+"s5"+delimiter+"s6"+"\n")
-
-  for i,srcface in enumerate(simFaces):
-		dict = simFaces[srcface]
-		names = delimiter.join([x[0] for x in dict])
-		scores = delimiter.join([str(x[1]) for x in dict])
-		f.write(srcface +delimiter+ names +delimiter+ scores +"\n")
-    
-  f.close()
-	
 # Generate name file for mechanical turk
-print_txt(mostSim, OUTPUT_DIR)
+dsf.print_txt(mostSim, OUTPUT_TXT)
 
 # Generate output webpage
-# print_html(mostSim, OUTPUT_DIR)
+dsf.print_html(mostSim, DATASET_DIR, OUTPUT_HTML)
