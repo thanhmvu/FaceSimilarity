@@ -67,11 +67,14 @@ Trained models are stored in **scripts/vggface/trainedmodels/**, their descripti
 
 ## How to run
 
-Prepare for training: Create a webpage of 5000 faces and their top 6 most similar faces. To do so, follow these steps:
+To create a webpage of 5000 faces and their top 6 most similar faces, follow these steps:
 
+* Move to scripts folder: **cd <proj-root>/scripts/**
+* Check param here ... 
 * Filter unreadable images using face detection: **python thanh_init_dataset.py**
-* Manually filter good faces (exclude poor quality, weird pose, celeb faces, ...)
-* The output is 100 names &ast; 50 faces/ name = 5000 faces
+* Manually go through the output images and filter out bad faces (poor quality, weird pose, duplicate faces, celebrity faces, ...)
+* Change params + filter new faces if needed ...
+* The final output should be 100 names &ast; 50 faces/ name = 5000 faces
 * Crop 120x150 images to make spare images: **mogrify -crop 120x120+0+30 &ast;.png**
 * Resize image to 224x224 to fit the network: **mogrify -resize 224x224 &ast;.png**
 * Generate names.csv: **ls image-folder/ > names.csv**
