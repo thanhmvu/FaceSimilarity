@@ -67,17 +67,18 @@ Trained models are stored in **scripts/vggface/trainedmodels/**, their descripti
 
 ## How to run
 
-To create a webpage of 5000 faces and their top 6 most similar faces, follow these steps:
+To create a webpage of 5000 faces and retrieve their six most similar faces:
 
-* Move to scripts folder: **cd <proj-root>/scripts/**
-* Check param here ... 
-* Filter unreadable images using face detection: **python thanh_init_dataset.py**
-* Manually go through the output images and filter out bad faces (poor quality, weird pose, duplicate faces, celebrity faces, ...)
-* Change params + filter new faces if needed ...
-* The final output should be 100 names &ast; 50 faces/ name = 5000 faces
-* Crop 120x150 images to make spare images: **mogrify -crop 120x120+0+30 &ast;.png**
-* Resize image to 224x224 to fit the network: **mogrify -resize 224x224 &ast;.png**
-* Generate names.csv: **ls image-folder/ > names.csv**
-* Provide path to images and names.csv in thanh_get_feature_vectors.py and run: **python thanh_get_feature_vectors.py**
-* Provide path to images and names.csv in thanh_get_similar_faces.py and run: **python thanh_get_similar_faces.py**
-* The output html webpage is in results/
+1. Move to scripts folder: **cd <proj-root>/scripts/**
+2. Filter unreadable images using face detection:   
+  a. Provide input parameteres in thanh_init_dataset.py   
+  b. Run: **python thanh_init_dataset.py**   
+  c. Manually go through the output images and filter out bad faces (poor quality, weird pose, duplicate faces, celebrity faces, ...)  
+  d. Redo a, b, c to filter new faces if needed.  
+3. The final output should be 100 names &ast; 50 faces/ name = 5000 faces
+4. Crop 120x150 images to make spare images: **mogrify -crop 120x120+0+30 &ast;.png**
+5. Resize image to 224x224 to fit the network: **mogrify -resize 224x224 &ast;.png**
+6. Generate names.csv: **ls image-folder/ > names.csv**
+7. Provide image path and names.csv in thanh_get_feature_vectors.py, then run: **python thanh_get_feature_vectors.py**
+8. Provide image path and names.csv in thanh_get_similar_faces.py, then run: **python thanh_get_similar_faces.py**
+9. The output html webpage is in results/ folder.
