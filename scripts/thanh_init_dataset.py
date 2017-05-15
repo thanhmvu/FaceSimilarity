@@ -10,7 +10,7 @@ DB_DIR = "../../database/"
 SRC_DIR = "Names100Dataset/Names100_Images/"
 DST_DIR = "storage/good_faces/"
 BAD_DIR = "storage/bad_faces/"
-image_per_name = 30
+image_per_name = 50
 
 # ================================= METHODS ================================ #
 def detectAndDisplay3(imgName):
