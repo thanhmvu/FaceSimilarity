@@ -5,6 +5,12 @@ import shutil
 import os
 # from matplotlib import pyplot as plt
 
+SRC_NAMES = "../../database/Names100Dataset/names100.txt"
+DB_DIR = "../../database/"
+SRC_DIR = "Names100Dataset/Names100_Images/"
+DST_DIR = "storage/good_faces/"
+BAD_DIR = "storage/bad_faces/"
+image_per_name = 30
 
 # ================================= METHODS ================================ #
 def detectAndDisplay3(imgName):
@@ -95,13 +101,6 @@ def detect(imgName):
 	return len(faces)
 
 # =================================== MAIN ================================== #
-SRC_NAMES = "../../database/Names100Dataset/names100.txt"
-DB_DIR = "../../database/"
-SRC_DIR = "Names100Dataset/Names100_Images/"
-# DST_DIR = "storage/good_faces/"
-DST_DIR = "faces_5k/abc/"
-BAD_DIR = "storage/bad_faces/"
-
 # import names from text file in Names100Dataset
 # each name correspond to 800 images
 all_names = [line.strip() for line in open(SRC_NAMES,"r+")]
@@ -115,11 +114,9 @@ print(all_names)
 
 # # ======== Detect and move images ======== #
 used_names = len(all_names)
-image_per_name = 30
 # for i,imgName in enumerate(imgNames):
-for name in all_names[99:used_names]:
+for name in all_names[0:used_names]:
 	print(name)
-	name = "Zoe"
 	good_images = 0
 	for imgName in glob.glob(DB_DIR+SRC_DIR+name+"*.png"):
 		print(imgName)
