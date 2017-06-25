@@ -1,4 +1,5 @@
-This project trains the VGGFace network for face similarity using triplet loss 
+This project trains the VGGFace network for face similarity using triplet loss   
+This repo is continuing work of Face Similarity research by [Wassim Gharbi](https://github.com/wassgha) and Dr. [Amir Sadovnik](http://sites.lafayette.edu/sadovnia/)  
 
 ## Directories: 
 
